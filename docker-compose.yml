@@ -3,20 +3,22 @@ version: '3.9'
 services:
   app:
     build: .
-    command: "python manage.py migrate && gunicorn A.wsgi -b 0.0.0.0:8000"
+    command: sh -c "python manage.py migrate && gunicorn A.wsgi -b 0.0.0.0:8000"
     container_name: app
     volumes:
-      - .:/lol/
-    networks:
-      - main
+      - .:/code/
     ports:
       - "8000:8000"
+    networks:
+      - main
     restart: always
+
   nginx:
     container_name: nginx
+    command: nginx -g 'daemon off;'
+    image: nginx:latest
     depends_on:
       - app
-    command: nginx -g 'daemon off;'
     networks:
       - main
     ports:
