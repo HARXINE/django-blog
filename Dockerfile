@@ -1,12 +1,9 @@
 FROM python:latest
 
-WORKDIR /code
+WORKDIR /lol
 
-COPY requirements.txt /code/
+COPY . /lol/
 
-RUN pip install -U pip
 RUN pip install -r requirements.txt
 
-COPY . /code/
-
-CMD ["gunicorn", "A.wsgi", ":8000"]
+CMD ["gunicorn","A.wsgi",":8000"]
